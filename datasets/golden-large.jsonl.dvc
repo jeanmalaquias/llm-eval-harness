@@ -1,0 +1,8 @@
+# Sample DVC pointer (template). `dvc add datasets/golden-large.jsonl` generates
+# this; the real .jsonl bytes live in the DVC remote, not in Git.
+# Run `dvc pull` to fetch them. See docs/dataset-versioning.md.
+outs:
+- md5: 0a1b2c3d4e5f60718293a4b5c6d7e8f9
+  size: 482919
+  hash: md5
+  path: golden-large.jsonl

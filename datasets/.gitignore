@@ -1,0 +1,2 @@
+# DVC-tracked data files are fetched with `dvc pull`, not committed to Git.
+/golden-large.jsonl
