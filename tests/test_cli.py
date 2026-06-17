@@ -49,6 +49,19 @@ def test_cli_gate_fails_on_regression(tmp_path):
     assert cli.main(["run", "--config", str(config)]) == 1
 
 
+def test_cli_appends_history(tmp_path):
+    baseline = tmp_path / "baseline.json"
+    config = _write_config(tmp_path, baseline)
+    history = tmp_path / "history.jsonl"
+    cli.main(["run", "--config", str(config), "--update-baseline",
+              "--history", str(history)])
+    cli.main(["run", "--config", str(config), "--history", str(history)])
+    lines = [json.loads(line) for line in history.read_text().splitlines()]
+    assert len(lines) == 2
+    assert "timestamp" in lines[0]
+    assert "llm_judge" in lines[0]["aggregate"]
+
+
 def test_cli_writes_html(tmp_path):
     baseline = tmp_path / "baseline.json"
     cli.main(["run", "--config", str(_write_config(tmp_path, baseline)),

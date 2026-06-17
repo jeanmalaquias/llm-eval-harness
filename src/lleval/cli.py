@@ -10,10 +10,12 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .config import load_config
 from .dataset import load_predictions
+from .frameworks import load_promptfoo_results
 from .judge import get_judge
 from .metrics import build_metrics
 from .report import to_html, to_markdown
@@ -23,8 +25,21 @@ from .runner import compare_to_baseline, run_eval
 async def _run(args: argparse.Namespace) -> int:
     config = load_config(args.config)
     predictions = load_predictions(config.dataset)
-    metrics = build_metrics(config.metrics, get_judge(config.judge))
+    promptfoo = (
+        load_promptfoo_results(config.promptfoo_results)
+        if config.promptfoo_results
+        else None
+    )
+    metrics = build_metrics(config.metrics, get_judge(config.judge), promptfoo)
     report = await run_eval(predictions, metrics)
+
+    if args.history:
+        entry = {
+            "timestamp": datetime.now(UTC).isoformat(),
+            "aggregate": report.aggregate,
+        }
+        with Path(args.history).open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(entry) + "\n")
 
     if args.update_baseline:
         Path(config.baseline).write_text(
@@ -53,6 +68,10 @@ def main(argv: list[str] | None = None) -> int:
     run_p = sub.add_parser("run", help="Run the eval suite and gate on regression.")
     run_p.add_argument("--config", required=True)
     run_p.add_argument("--html", help="Optional path to write an HTML report.")
+    run_p.add_argument(
+        "--history",
+        help="Append this run's aggregate to a JSONL history (for the dashboard).",
+    )
     run_p.add_argument("--update-baseline", action="store_true")
     args = parser.parse_args(argv)
     return asyncio.run(_run(args))

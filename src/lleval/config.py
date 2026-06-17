@@ -16,6 +16,8 @@ class Config(BaseModel):
     metrics: list[str]
     threshold: float = 0.05
     judge: str = "heuristic"
+    # Optional path to a Promptfoo results JSON (consumed by the promptfoo metric).
+    promptfoo_results: str | None = None
 
 
 def load_config(path: str | Path) -> Config:

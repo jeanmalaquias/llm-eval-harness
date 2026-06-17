@@ -17,6 +17,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+ragas = ["ragas>=0.2"]
+deepeval = ["deepeval>=1.0"]
+# Promptfoo is a Node CLI (npm i -g promptfoo); its results JSON is ingested.
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",

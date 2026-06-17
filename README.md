@@ -50,7 +50,24 @@ threshold: 0.05
 pip install -e .
 lleval run --config eval.yaml          # exits non-zero on regression
 lleval run --config eval.yaml --update-baseline
+lleval run --config eval.yaml --history history.jsonl   # append a trend point
 ```
+
+### Framework adapters
+
+Ragas and DeepEval plug in as per-record metrics (`pip install lleval[ragas]`
+or `lleval[deepeval]`); Promptfoo (a Node CLI suite-runner) is ingested from its
+results JSON. Select them by name in `eval.yaml` or use the classes directly.
+
+### Trend dashboard
+
+`dashboard/` is a Next.js 15 app that charts metric trends from
+`lleval run --history` output. `cd dashboard && npm install && npm run dev`.
+
+### Dataset versioning
+
+Large golden sets are versioned with DVC — see
+[docs/dataset-versioning.md](docs/dataset-versioning.md).
 
 ## Use it in CI (3 lines)
 
@@ -84,8 +101,9 @@ register it — no core changes. See `docs/architecture.md` §3.
 - [x] Config-driven runner, baseline diff, regression gate
 - [x] HTML + JSON + Markdown reports
 - [x] Reusable GitHub composite Action + example app
-- [ ] Framework adapters (Ragas / DeepEval / Promptfoo) — interfaces in, impls next
-- [ ] Next.js trend dashboard + DVC dataset versioning
+- [x] Framework adapters — Ragas, DeepEval (per-record), Promptfoo (results ingest)
+- [x] Next.js trend dashboard (`dashboard/`) + `lleval run --history`
+- [x] DVC dataset versioning (docs + pointer scaffolding)
 
 ## License
 
