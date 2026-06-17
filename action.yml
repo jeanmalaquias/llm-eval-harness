@@ -1,0 +1,27 @@
+name: "LLM Eval Gate"
+description: "Score recorded predictions and fail the build on a quality regression."
+inputs:
+  config:
+    description: "Path to the eval.yaml config."
+    required: true
+  html:
+    description: "Optional path to write an HTML report."
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install lleval
+      shell: bash
+      run: pip install "${{ github.action_path }}"
+    - name: Run eval gate
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.html }}" ]; then
+          lleval run --config "${{ inputs.config }}" --html "${{ inputs.html }}"
+        else
+          lleval run --config "${{ inputs.config }}"
+        fi

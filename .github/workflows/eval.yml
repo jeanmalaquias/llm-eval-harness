@@ -1,0 +1,18 @@
+name: eval-gate
+
+# Dogfoods the reusable action on this repo's own example suite.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the eval gate (local action)
+        uses: ./
+        with:
+          config: examples/rag-app/eval.yaml
+          html: report.html

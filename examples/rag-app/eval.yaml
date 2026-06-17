@@ -1,0 +1,10 @@
+# Example eval suite. Run from the repo root:  lleval run --config examples/rag-app/eval.yaml
+dataset: examples/rag-app/predictions.jsonl
+baseline: examples/rag-app/baseline.json
+metrics:
+  - exact_match
+  - keyword_coverage
+  - groundedness
+  - llm_judge
+threshold: 0.05
+judge: heuristic
