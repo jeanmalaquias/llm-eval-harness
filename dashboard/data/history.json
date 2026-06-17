@@ -1,0 +1,8 @@
+[
+  { "timestamp": "2026-05-01", "aggregate": { "keyword_coverage": 0.61, "groundedness": 0.58, "llm_judge": 0.55 } },
+  { "timestamp": "2026-05-08", "aggregate": { "keyword_coverage": 0.64, "groundedness": 0.60, "llm_judge": 0.59 } },
+  { "timestamp": "2026-05-15", "aggregate": { "keyword_coverage": 0.62, "groundedness": 0.57, "llm_judge": 0.54 } },
+  { "timestamp": "2026-05-22", "aggregate": { "keyword_coverage": 0.70, "groundedness": 0.66, "llm_judge": 0.63 } },
+  { "timestamp": "2026-05-29", "aggregate": { "keyword_coverage": 0.73, "groundedness": 0.69, "llm_judge": 0.67 } },
+  { "timestamp": "2026-06-05", "aggregate": { "keyword_coverage": 0.71, "groundedness": 0.68, "llm_judge": 0.66 } }
+]
